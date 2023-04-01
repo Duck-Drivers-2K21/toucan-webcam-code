@@ -56,7 +56,8 @@ def main():
         try:
             frame = get_frame()
             time.sleep(DELAY)
-        except:
+        except Exception as E:
+            print(E)
             continue
 
         print(upload_image_to_s3(frame, BUCKET_NAME, str(uuid.uuid4())+'.jpg'))

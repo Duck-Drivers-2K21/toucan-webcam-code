@@ -22,6 +22,7 @@ def upload_image_to_s3(frame, bucket_name, s3_key):
     """
 
     s3 = boto3.client('s3')
+    sqs = boto3.client('sqs')
     # Encode the frame as a JPEG image
     retval, buffer = cv2.imencode('.jpg', frame)
 
@@ -31,7 +32,7 @@ def upload_image_to_s3(frame, bucket_name, s3_key):
     # Upload the encoded image to S3
     byte_data = BytesIO(buffer)
     s3.upload_fileobj(byte_data, bucket_name, s3_key)
-    response = s3.send_message(
+    response = sqs.send_message(
         QueueUrl=QUEUE_URL,
         MessageBody=str(id)
     )

@@ -10,6 +10,7 @@ BUCKET_NAME = 'toucan-data'
 DELAY = 60
 QUEUE_URL = 'https://sqs.eu-west-2.amazonaws.com/083551419963/toucan-ingestion'
 
+
 def upload_image_to_s3(frame, bucket_name, s3_key):
     """
     Uploads an image to an S3 bucket.
@@ -55,12 +56,12 @@ def main():
     while True:
         try:
             frame = get_frame()
-            time.sleep(DELAY)
+            print(upload_image_to_s3(frame, BUCKET_NAME, str(uuid.uuid4()) + '.jpg'))
         except Exception as E:
             print(E)
             continue
 
-        print(upload_image_to_s3(frame, BUCKET_NAME, str(uuid.uuid4())+'.jpg'))
+        time.sleep(DELAY)
 
 
 if __name__ == '__main__':

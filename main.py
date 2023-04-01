@@ -7,7 +7,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 
 BUCKET_NAME = 'toucan-data'
-
+DELAY = 60
 
 def upload_image_to_s3(frame, bucket_name, s3_key):
     """
@@ -50,6 +50,7 @@ def main():
     while True:
         try:
             frame = get_frame()
+            time.sleep(DELAY)
         except:
             continue
 

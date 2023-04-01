@@ -8,6 +8,7 @@ from botocore.exceptions import NoCredentialsError
 
 BUCKET_NAME = 'toucan-data'
 DELAY = 60
+QUEUE_URL = 'https://sqs.eu-west-2.amazonaws.com/083551419963/toucan-ingestion'
 
 def upload_image_to_s3(frame, bucket_name, s3_key):
     """
@@ -29,6 +30,10 @@ def upload_image_to_s3(frame, bucket_name, s3_key):
     # Upload the encoded image to S3
     byte_data = BytesIO(buffer)
     s3.upload_fileobj(byte_data, bucket_name, s3_key)
+    response = s3.send_message(
+        QueueUrl=QUEUE_URL,
+        MessageBody=str(id)
+    )
     return {'success': True, 'message': f"Image uploaded to S3 successfully."}
 
 

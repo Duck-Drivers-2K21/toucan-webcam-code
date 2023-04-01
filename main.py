@@ -46,7 +46,7 @@ def get_frame():
         else:
             raise Exception("Failed to get frame")
     finally:
-        pass
+        vc.release()
 
     return frame
 
